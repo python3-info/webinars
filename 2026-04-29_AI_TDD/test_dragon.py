@@ -44,3 +44,55 @@ class TestPosition(TestCase):
 
     def test_position_default(self):
         self.assertEqual(self.dragon.position, (0, 0))
+
+    def test_position_positional(self):
+        with self.assertRaises(TypeError):
+            Dragon('Wawelski', 50, 100)  # noqa
+
+    def test_position_keyword(self):
+        dragon = Dragon('Wawelski', position_x=50, position_y=100)
+        self.assertEqual(dragon.position, (50, 100))
+
+    def test_position_get(self):
+        self.dragon.position = (1, 2)
+        position = self.dragon.get_position()
+        self.assertEqual(position, (1, 2))
+
+    def test_position_set(self):
+        self.dragon.set_position(10, 20)
+        self.assertEqual(self.dragon.position, (10, 20))
+
+    def test_position_move_right(self):
+        self.dragon.position = (10, 20)
+        self.dragon.move(right=1)
+        self.assertEqual(self.dragon.position, (11, 20))
+
+    def test_position_move_left(self):
+        self.dragon.position = (10, 20)
+        self.dragon.move(left=1)
+        self.assertEqual(self.dragon.position, (9, 20))
+
+    def test_position_move_up(self):
+        self.dragon.position = (10, 20)
+        self.dragon.move(up=1)
+        self.assertEqual(self.dragon.position, (10, 19))
+
+    def test_position_move_down(self):
+        self.dragon.position = (10, 20)
+        self.dragon.move(down=1)
+        self.assertEqual(self.dragon.position, (10, 21))
+
+    def test_position_move_vertical(self):
+        self.dragon.position = (10, 20)
+        self.dragon.move(up=1, down=2)
+        self.assertEqual(self.dragon.position, (10, 21))
+
+    def test_position_move_horizontal(self):
+        self.dragon.position = (10, 20)
+        self.dragon.move(left=1, right=2)
+        self.assertEqual(self.dragon.position, (11, 20))
+
+    def test_position_move_omnidirectional(self):
+        self.dragon.position = (10, 20)
+        self.dragon.move(left=1, right=2, up=3, down=4)
+        self.assertEqual(self.dragon.position, (11, 21))
